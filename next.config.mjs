@@ -7,8 +7,10 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
+    domains: ['lh3.googleusercontent.com'], // For Google Auth profile pictures
     unoptimized: true,
   },
+  output: 'standalone',
 }
 
 export default nextConfig
