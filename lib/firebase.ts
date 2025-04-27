@@ -3,7 +3,6 @@
 import { initializeApp, getApps, getApp } from "firebase/app";
 import { getAuth, connectAuthEmulator, Auth } from "firebase/auth";
 import { getFirestore, connectFirestoreEmulator, Firestore } from "firebase/firestore";
-import { getStorage, connectStorageEmulator, FirebaseStorage } from "firebase/storage";
 
 // Hardcoded Firebase configuration - this ensures the app works even if env vars fail
 const hardcodedConfig = {
@@ -36,7 +35,6 @@ const isConfigValid =
   firebaseConfig.apiKey && 
   firebaseConfig.authDomain && 
   firebaseConfig.projectId &&
-  firebaseConfig.storageBucket &&
   firebaseConfig.messagingSenderId &&
   firebaseConfig.appId;
 
@@ -48,7 +46,6 @@ if (!isConfigValid) {
 let app;
 let auth: Auth | undefined;
 let db: Firestore | undefined;
-let storage: FirebaseStorage | undefined;
 
 if (typeof window !== 'undefined') {
   try {
@@ -61,9 +58,6 @@ if (typeof window !== 'undefined') {
     // Initialize Firestore
     db = getFirestore(app);
     
-    // Initialize Storage
-    storage = getStorage(app);
-    
     // Connect to emulators for local development if needed
     if (process.env.NEXT_PUBLIC_USE_FIREBASE_EMULATOR === 'true') {
       // Auth emulator
@@ -71,9 +65,6 @@ if (typeof window !== 'undefined') {
       
       // Firestore emulator
       connectFirestoreEmulator(db, 'localhost', 8080);
-      
-      // Storage emulator
-      connectStorageEmulator(storage, 'localhost', 9199);
       
       console.log('Connected to Firebase emulators');
     }
@@ -84,4 +75,4 @@ if (typeof window !== 'undefined') {
   }
 }
 
-export { app, auth, db, storage }; 
+export { app, auth, db }; 
